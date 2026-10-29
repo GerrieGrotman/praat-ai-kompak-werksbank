@@ -1,0 +1,533 @@
+/*
+  Compact layout for https://praat.ai/job/<id>
+
+  Active only while <html class="praat-compact">, which content.js adds on job
+  pages. Everything here is !important so it wins against Tailwind utilities
+  without moving DOM nodes (React would undo moves).
+
+  Target shape, top to bottom, inside the existing full-height shell:
+    36px top bar
+    one line: workbench title + job id + claim status
+    short audio strip (waveform, then play / time / speed on one row)
+    editor card that fills whatever height is left
+      small toolbar, TEXT area (flex), one-line note, action buttons
+*/
+
+html.praat-compact,
+html.praat-compact body {
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+html.praat-compact .h-dvh {
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+/* ---- top bar ---- */
+
+html.praat-compact .h-dvh > .h-16,
+html.praat-compact [data-praat="topbar"] {
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  flex: 0 0 36px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  overflow: hidden !important;
+  align-items: center !important;
+}
+
+html.praat-compact .h-16 img,
+html.praat-compact [data-praat="topbar"] img {
+  height: 20px !important;
+  max-height: 20px !important;
+  width: auto !important;
+}
+
+html.praat-compact .h-16 [role="group"] button,
+html.praat-compact [data-praat="topbar"] [role="group"] button {
+  height: 24px !important;
+  min-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* The site's own menu button is md:hidden. Show it so navigation still opens. */
+html.praat-compact button[data-slot="sheet-trigger"],
+html.praat-compact [data-praat="menu-btn"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 auto !important;
+}
+
+/* ---- sidebar ---- */
+
+html.praat-compact aside[role="navigation"],
+html.praat-compact [data-praat="sidebar"] {
+  display: none !important;
+}
+
+/* Row that holds the sidebar and main. */
+html.praat-compact .h-dvh > div:has(> main) {
+  min-height: 0 !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  overflow: hidden !important;
+}
+
+html.praat-compact main {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: hidden !important;
+}
+
+/*
+  Main column becomes a 3-row grid:
+    title | claim
+    audio (full width)
+    editor (fills the rest)
+  Intermediate wrappers (the 2-column grid, the left stack) are set to
+  display:contents so the cards become grid items without moving them.
+*/
+
+html.praat-compact main > div:has(h1),
+html.praat-compact [data-praat="main-inner"] {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-rows: auto auto minmax(0, 1fr) !important;
+  grid-template-areas:
+    "title claim"
+    "audio audio"
+    "editor editor" !important;
+  align-items: stretch !important;
+  justify-items: stretch !important;
+  column-gap: 12px !important;
+  row-gap: 4px !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 4px 8px 6px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+}
+
+/*
+  Drop the desktop 2-column grid and the left-hand stack out of the box tree
+  so the two cards sit directly in the grid above. :has() still sees them.
+*/
+html.praat-compact main div:has(> div > [data-slot="card"] [data-play-button="true"]),
+html.praat-compact div:has(> [data-slot="card"] [data-play-button="true"]),
+html.praat-compact [data-praat-lift] {
+  display: contents !important;
+}
+
+/* ---- title + job id ---- */
+
+html.praat-compact main > div:has(h1) > :has(h1):not(:has([data-slot="card"])),
+html.praat-compact [data-praat="main-inner"] > :has(h1):not(:has([data-slot="card"])),
+html.praat-compact [data-praat="title-row"] {
+  grid-area: title !important;
+  align-self: center !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+html.praat-compact main div:has(> h1) {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: baseline !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+html.praat-compact main h1 {
+  flex: 0 1 auto !important;
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+html.praat-compact main div:has(> h1) > :not(h1) {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* ---- claim status, same band as the title ---- */
+
+html.praat-compact div:has(> [data-slot="card"] [data-play-button="true"]) > [data-slot="card"]:not(:has([data-play-button="true"])),
+html.praat-compact [data-praat="job-card"] {
+  grid-area: claim !important;
+  align-self: center !important;
+  justify-self: end !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 46vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  min-height: 0 !important;
+}
+
+html.praat-compact div:has(> [data-slot="card"] [data-play-button="true"]) > [data-slot="card"]:not(:has([data-play-button="true"])) > [data-slot="card-header"],
+html.praat-compact [data-praat="job-card"] > [data-slot="card-header"] {
+  display: none !important;
+}
+
+html.praat-compact div:has(> [data-slot="card"] [data-play-button="true"]) > [data-slot="card"]:not(:has([data-play-button="true"])) [data-slot="card-content"],
+html.praat-compact [data-praat="job-card"] [data-slot="card-content"] {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+}
+
+html.praat-compact [data-praat="job-card"] [data-slot="badge"],
+html.praat-compact div:has(> [data-slot="card"] [data-play-button="true"]) > [data-slot="card"]:not(:has([data-play-button="true"])) [data-slot="badge"] {
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  padding: 1px 6px !important;
+  min-height: 0 !important;
+}
+
+/* ---- audio player ---- */
+
+html.praat-compact main [data-slot="card"]:has([data-play-button="true"]),
+html.praat-compact [data-praat="audio-card"] {
+  grid-area: audio !important;
+  align-self: start !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  overflow: visible !important;
+}
+
+html.praat-compact main [data-slot="card"]:has([data-play-button="true"]) > [data-slot="card-header"],
+html.praat-compact [data-praat="audio-card"] > [data-slot="card-header"] {
+  display: none !important;
+}
+
+html.praat-compact main [data-slot="card"]:has([data-play-button="true"]) > [data-slot="card-content"],
+html.praat-compact [data-praat="audio-content"] {
+  display: flex !important;
+  flex-flow: row wrap !important;
+  align-items: center !important;
+  gap: 4px 8px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 4px 8px !important;
+  box-sizing: border-box !important;
+}
+
+/*
+  Size only the waveform's own box. Do not set height on its children:
+  wavesurfer draws a canvas (often inside an open shadow root) at its own
+  pixel height, and forcing that canvas shorter clips the bars down to a sliver.
+  content.js scales the rendered wave into this box, and asks the library to
+  redraw, when compact mode turns on or off.
+*/
+html.praat-compact main [data-slot="card"]:has([data-play-button="true"]) > [data-slot="card-content"] > :not(:has(button)),
+html.praat-compact [data-praat="waveform"] {
+  flex: 1 0 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+
+/* Play / previous / next. */
+html.praat-compact main [data-slot="card"]:has([data-play-button="true"]) > [data-slot="card-content"] > :has([data-play-button="true"]),
+html.praat-compact [data-praat="transport"] {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 2px !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html.praat-compact [data-play-button="true"] {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+}
+
+html.praat-compact main [data-slot="card"]:has([data-play-button="true"]) > [data-slot="card-content"] > :has([data-play-button="true"]) button:not([data-play-button="true"]),
+html.praat-compact [data-praat="transport"] button:not([data-play-button="true"]) {
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 26px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+}
+
+/* Time + speed buttons, same row as play. */
+html.praat-compact main [data-slot="card"]:has([data-play-button="true"]) > [data-slot="card-content"] > :has(button):not(:has([data-play-button="true"])),
+html.praat-compact [data-praat="meta-row"] {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 4px !important;
+  width: auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html.praat-compact main [data-slot="card"]:has([data-play-button="true"]) > [data-slot="card-content"] > :has(button):not(:has([data-play-button="true"])) > :not(button):not(:has(button)),
+html.praat-compact [data-praat="time"] {
+  margin-right: auto !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+html.praat-compact main [data-slot="card"]:has([data-play-button="true"]) > [data-slot="card-content"] > :has(button):not(:has([data-play-button="true"])) button,
+html.praat-compact [data-praat="meta-row"] button {
+  height: 22px !important;
+  min-height: 0 !important;
+  width: auto !important;
+  min-width: 0 !important;
+  padding: 0 7px !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+}
+
+/* ---- transcription editor ---- */
+
+html.praat-compact main [data-slot="card"]:has(textarea),
+html.praat-compact [data-praat="editor-card"] {
+  grid-area: editor !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-self: stretch !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-header"],
+html.praat-compact [data-praat="editor-card"] > [data-slot="card-header"],
+html.praat-compact main [data-slot="card"]:has(textarea) [data-slot="card-description"] {
+  display: none !important;
+}
+
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"],
+html.praat-compact [data-praat="editor-content"] {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  padding: 4px 8px 6px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+/* Insert Timestamp + Keyboard Shortcuts. :has(~ textarea) is the row above the text. */
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:has(button):not(:has(textarea)):has(~ textarea),
+html.praat-compact [data-praat="toolbar"] {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 6px !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html.praat-compact [data-praat="toolbar"] .relative,
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:has(button):not(:has(textarea)):has(~ textarea) .relative {
+  width: auto !important;
+  flex: 0 0 auto !important;
+  position: relative !important;
+}
+
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:has(button):not(:has(textarea)):has(~ textarea) button,
+html.praat-compact [data-praat="toolbar"] button {
+  height: 24px !important;
+  min-height: 0 !important;
+  padding: 0 8px !important;
+  gap: 4px !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+}
+
+html.praat-compact [data-praat="toolbar"] button svg,
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:has(button):not(:has(textarea)):has(~ textarea) button svg {
+  width: 13px !important;
+  height: 13px !important;
+  flex: 0 0 auto !important;
+}
+
+/* "TEXT" label — keep it for screen readers, don't spend a row on it. */
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:not(:has(button)):not(:has(textarea)),
+html.praat-compact [data-praat="text-label"] {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > textarea,
+html.praat-compact textarea[data-praat="text"] {
+  field-sizing: fixed !important;
+  flex: 1 1 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  resize: none !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* NOTE sits on one short line beside its label. */
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:has(textarea),
+html.praat-compact [data-praat="note"] {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:has(textarea) > :not(textarea),
+html.praat-compact [data-praat="note"] > :not(textarea) {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.04em !important;
+  white-space: nowrap !important;
+}
+
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:has(textarea) textarea,
+html.praat-compact textarea[data-praat="note-field"] {
+  field-sizing: fixed !important;
+  flex: 1 1 auto !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  resize: none !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Report / Save / Submit. The row with buttons that has no textarea after it. */
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:has(button):not(:has(textarea)):not(:has(~ textarea)),
+html.praat-compact [data-praat="actions"] {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:has(button):not(:has(textarea)):not(:has(~ textarea)) button,
+html.praat-compact [data-praat="actions"] button {
+  height: 26px !important;
+  min-height: 0 !important;
+  padding: 0 10px !important;
+  gap: 4px !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+
+html.praat-compact [data-praat="actions"] button svg,
+html.praat-compact main [data-slot="card"]:has(textarea) > [data-slot="card-content"] > div:has(button):not(:has(textarea)):not(:has(~ textarea)) button svg {
+  width: 13px !important;
+  height: 13px !important;
+  flex: 0 0 auto !important;
+}

@@ -1,0 +1,77 @@
+Praat.ai kompak werksbank
+========================
+
+AFRIKAANS
+---------
+
+Hierdie uitbreiding maak die Praat-transkripsiebladsy pas op ’n skootrekenaar.
+Die teksboks word groot, en jy hoef nie die bladsy te skuif nie.
+
+Installeer in Chrome
+1. Pak hierdie vouer uit as dit nog ’n .zip-lêer is.
+2. Maak Chrome oop.
+3. Tik in die adresbalk:  chrome://extensions
+   en druk Enter.
+4. Skakel "Developer mode" aan (die skakelaar regs bo).
+   In Afrikaanse Chrome staan dit "Ontwikkelaarmodus".
+5. Klik "Load unpacked".
+   In Afrikaanse Chrome: "Laai uitgepak".
+6. Kies die vouer waarin hierdie lêer en manifest.json lê
+   (die vouer heet praat-ai-kompak-werksbank).
+7. Maak ’n transkripsietaak oop:  https://praat.ai/job/......
+   Die bladsy behoort reeds kompak te lyk. Die ikoon wys ’n klein "ON".
+
+Sit dit af of aan
+- Klik die legkaartstukkie in Chrome, dan "Praat.ai kompak werksbank".
+- Of, terwyl jy op die taakbladsy is, druk Alt+Shift+C.
+
+As die kortpad niks doen nie, gaan na chrome://extensions/shortcuts
+en stel "Toggle compact transcription layout" op Alt+Shift+C.
+
+Speld dit vas sodat jy dit maklik kry: legkaartstukkie, dan die pennetjie
+langs "Praat.ai kompak werksbank".
+
+Niks word weggestuur nie. Die uitbreiding verander net hoe die taakbladsy
+op jou skerm lyk. Stoor en Dien in werk steeds soos op Praat.
+
+Dit loop net op https://praat.ai/job/......
+Dit is ’n nie-amptelike projek en is nie aan Praat, Solidariteit
+of AfriForum verbonde nie.
+
+
+ENGLISH
+-------
+
+This changes the Praat transcription page so it fits on a laptop screen.
+The text box becomes large, and you should not have to scroll the page.
+
+Install in Chrome
+1. Unzip this folder if it is still a .zip file.
+2. Open Chrome.
+3. In the address bar, type:  chrome://extensions
+   and press Enter.
+4. Turn on "Developer mode" (the switch at the top right).
+   In Afrikaans Chrome it is labelled "Ontwikkelaarmodus".
+5. Click "Load unpacked".
+   In Afrikaans Chrome: "Laai uitgepak".
+6. Choose the folder that contains this file and manifest.json
+   (the folder is named praat-ai-kompak-werksbank).
+7. Open a transcription job:  https://praat.ai/job/......
+   The page should already look compact. The icon shows a small "ON".
+
+Turn it off or on
+- Click the puzzle-piece icon in Chrome, then "Praat.ai kompak werksbank".
+- Or, while you are on the job page, press Alt+Shift+C.
+
+If the shortcut does nothing, open chrome://extensions/shortcuts
+and set "Toggle compact transcription layout" to Alt+Shift+C.
+
+Pin it so it is easy to find: puzzle-piece icon, then the pin next to
+"Praat.ai kompak werksbank".
+
+Nothing is sent anywhere. The extension only changes how the job page
+is laid out on your screen. Save and Submit still work as they do on Praat.
+
+It only runs on https://praat.ai/job/......
+This is an unofficial project and is not affiliated with Praat,
+Solidariteit or AfriForum.
